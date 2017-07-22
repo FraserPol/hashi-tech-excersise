@@ -19,14 +19,14 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-packer-web"
+    "ami_name": "fp-proxy-web"
   }],
   "provisioners": [{
     "type": "shell",
     "inline": [
       "sleep 30",
       "sudo apt-get update",
-      "sudo apt-get install -y apache2"
+      "sudo apt-get install -y haproxy"
     ]
   }]
 }
