@@ -2,6 +2,25 @@
 
 Working Log
 
+####################
+
+Scope and requirements;
+
+1) Terraform provisions out Consul (this is avalible in the tutorial)
+2) Slides to present and cover the various components and
+advantages and selling points
+
+--- Extra Points ---
+
+1) HaProxy config to two Apache webservers that answer with their IPs - add in demo from Consul web portal
+2) Packer to build out the Apache/HAProxy servers
+3) Terraform to deploy and register with Consul
+4) Figure out next steps here
+
+####################
+
+Follow up commit for code from tutorials and competitive information
+
 #####################
 
 Intial Commit, Set up Personal Account, Test Multiple SSH Config
@@ -26,4 +45,3 @@ Consul tutorial notes;
 2) Service discovery utility, http checks/outbound/inbound verification
 3) Premiuim component?
 4) Web consule/component is very attractive
-5) 
