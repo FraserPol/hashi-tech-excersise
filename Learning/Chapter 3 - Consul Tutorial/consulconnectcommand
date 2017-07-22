@@ -1,0 +1,8 @@
+consul agent -server -bootstrap-expect=1 -data-dir=/tmp/consul -node=agent-one -bind=172.20.20.10 -enable-script-checks=true -config-dir=/etc/consul.d
+
+consul agent -data-dir=/tmp/consul -node=agent-two -bind=172.20.20.11 -enable-script-checks=true -config-dir=/etc/consul.d
+
+auto-join cluster
+;https://www.consul.io/docs/agent/options.html?#retry_join_ec2
+;https://www.consul.io/docs/agent/options.html#_join
+;https://www.consul.io/docs/agent/options.html#start_join
