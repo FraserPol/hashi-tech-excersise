@@ -14,6 +14,17 @@ advantages and selling points
 3) Terraform to deploy and register with Consul
 4) Figure out next steps here
 
+##################
+
+Ok majority of logic figured out. Modules present variables/inheritance so overrides are possible.
+
+To do right now: add in health checks for single apache nodes (CM or remote-exec to be determined)
+
+If using CM, search values/bootstrap to Chef and auto detect HA proxy values? Can this be done with Terraform?
+
+Maybe switch to Redis/PostgreSQL to help with the next step of adding in keys
+
+Start Slides SOON
 
 ##################
 

@@ -1,24 +1,25 @@
 variable "region" {
-  default     = "us-east-1"
-  description        = "Region for cluster to spin up in"
+  default = "us-east-1"
 }
 
-variable "key_name" {
-  default     = "fpollock_sa"
-  description = "The AWS Key"
+variable "platform" {
+  default = "ubuntu"
+}
+
+variable "ami" {
+  description = "AWS AMI Id, if you change, make sure it is compatible with instance type, not all AMIs allow all instance types "
+
+  default = {
+    us-east-1-ubuntu      = "ami-0987d672"
+  }
 }
 
 variable "key_path" {
+  description = "Default key path for connection"
   default     = "~/.ssh/id_rsa"
-  description = "The path to the AWS Key"
 }
 
-variable "lb_ami" {
-  default     = "ami-3dd7ca2b"
-  description = "This is the default AMI for LB"
-}
-
-variable "lb_it" {
-  default     = "t2.micro"
-  description = ""
+variable "key_name" {
+  description = "AWS key name to access nodes"
+  default     = "fpollock_sa"
 }
