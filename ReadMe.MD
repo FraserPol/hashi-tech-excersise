@@ -1,9 +1,6 @@
 ######################
 
 Working Log
-
-####################
-
 Scope and requirements;
 
 1) Terraform provisions out Consul (this is avalible in the tutorial)
@@ -16,6 +13,13 @@ advantages and selling points
 2) Packer to build out the Apache/HAProxy servers
 3) Terraform to deploy and register with Consul
 4) Figure out next steps here
+
+
+##################
+
+Did some quick Packer templates on base VMs to have Apache installed and HAProxy, next plan is to incorporate this into Terraform to provision out and discover the nodes automatically
+
+Consul comes in here I suspect, I'll use the Consul git repo from the demo and switch to my AMIs or install myself? Not sure yet
 
 ####################
 
