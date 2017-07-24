@@ -30,21 +30,35 @@ resource "null_resource" "consul" {
   }
 
   connection {
-    user = "ubuntu"
-    host = "${module.consul.server_address}"
+    user        = "ubuntu"
+    host        = "${module.consul.server_address}"
     private_key = "${file("${var.key_path}")}"
-    timeout = "1m"
+    timeout     = "1m"
   }
+
+#dropping in the web monitoring scripts, one to check access, one to check apache
+#service and report into the demo
+
+  provisioner "file" {
+    source = "consul_conf/ping.json"
+    destination = "/etc/consul.d/ping.json"
+  }
+
+  provisioner "file" {
+    source = "consul_conf/web.json"
+    destination = "/etc/consul.d/web.json"
+  }
+
+#clean up perms
 
   provisioner "remote-exec" {
     inline = [
-    "service apache2 start",
-    "ifconfig > /var/www/html/index.html"
+      "sudo ifconfig > /var/www/html/index.html",
+      "service apache2 start",
+      "consul reload"
     ]
   }
 }
 
 # got web servers up, now how to do clustering (could use CM for this)
-# Edit: found Serf, going to try and Serf the cluster together
-# re-packing everything up with Serf installed (need to figure out how to install
-# another Consul agent on the leader (LB))
+# Edit: Serf says it can do this, add this to do

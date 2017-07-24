@@ -19,7 +19,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-p-webserver-f"
+    "ami_name": "fp-p-webserver-h"
   }],
   "provisioners": [{
     "type": "shell",
@@ -27,7 +27,10 @@
       "sleep 30",
       "sudo apt-get update",
       "sudo apt-get install -y apache2",
-      "sudo apt-get install -y unzip"
+      "sudo apt-get install -y unzip",
+      "sudo chmod -R 0777 /var/www/html/",
+      "sudo mkdir /etc/consul.d/",
+      "sudo chmod -R 0777 /etc/consul.d/"
     ]
   }]
 }

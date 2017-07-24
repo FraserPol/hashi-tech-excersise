@@ -1,6 +1,34 @@
 ######################
+#How to Use
+###########
 
-Working Log
+## Pre-requisites and recommendations.
+
+###Recommended Reading
+
+* Getting started with [Packer](https://www.packer.io/intro/index.html)
+* Getting started with [Terraform](https://www.terraform.io/)
+* Getting started with [Consul](https://www.consul.io/intro/index.html)
+
+################
+
+1. [Install](https://www.packer.io/intro/getting-started/install.html) Packer
+2. Inside /packer/ run `packer build web_servers.tf` this will provide an AMI for output, save this for later
+3. [Install](https://www.terraform.io/intro/getting-started/install.html) Terraform
+4. Inside /terraform/variables.tf paste your AMI id into the variable field "ami"
+5. `terraform plan` to verify before run
+6. `terraform apply` to provision out cluster
+
+
+This demo will provision a Consul cluster with packer images with Apache baked into the image.
+For basic verification and check the IP of the machines is echo'ed into the index.html.
+
+Once provisioned run `consul monitor` to see clustering status and HTTP status checks.
+
+
+################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################
+
+
 Scope and requirements;
 
 1) Terraform provisions out Consul (this is avalible in the tutorial)
@@ -13,6 +41,19 @@ advantages and selling points
 2) Packer to build out the Apache/HAProxy servers
 3) Terraform to deploy and register with Consul
 4) Figure out next steps here
+
+
+###################
+
+Build sript is semi working. Mac has a weird issue with sed. I've traced this down to a couple of
+blog posts I need to read to understand the difference in Regexs. This is a side project to main goal.
+
+I am happy with the consul cluster/Apache example but I think a good backup is ES cluster responding
+with an index check for consul. This would give a more impactful demo.
+
+Need to figure out where I can put Vault into demo and cluster. I think its best to do a KV example with ES hence the idea to change the basic demo.
+
+Start working on slides soon TM.
 
 ##################
 
