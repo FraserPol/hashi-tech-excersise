@@ -1,10 +1,12 @@
 ######################
-#How to Use
+
+# How to Use
+
 ###########
 
 ## Pre-requisites and recommendations.
 
-###Recommended Reading
+### Recommended Reading
 
 * Getting started with [Packer](https://www.packer.io/intro/index.html)
 * Getting started with [Terraform](https://www.terraform.io/)
