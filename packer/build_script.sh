@@ -10,4 +10,5 @@ then
   echo $name > current.txt
 else
  sed -i '' -e "s/ami_name.*/ami_name\": \"\\$name\"/g" ./web_servers.tf
+ packer builder ./web_servers.tf
 fi
