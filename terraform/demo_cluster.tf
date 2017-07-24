@@ -1,8 +1,12 @@
+#look at adding gcp or azure for fun
+
 provider "aws" {
   access_key = ""
   secret_key = ""
   region     = "${var.region}"
 }
+
+#used the existing consul module
 
 module "consul" {
   source = "github.com/hashicorp/consul/terraform/aws"
@@ -35,8 +39,12 @@ resource "null_resource" "consul" {
   provisioner "remote-exec" {
     inline = [
     "service apache2 start",
+    "ifconfig > /var/www/html/index.html"
     ]
   }
-
-
 }
+
+# got web servers up, now how to do clustering (could use CM for this)
+# Edit: found Serf, going to try and Serf the cluster together
+# re-packing everything up with Serf installed (need to figure out how to install
+# another Consul agent on the leader (LB))
