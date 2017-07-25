@@ -49,7 +49,7 @@ resource "null_resource" "consul" {
     destination = "/etc/consul.d/web.json"
   }
 
-#clean up perms
+#to do: clean up perms
 
   provisioner "remote-exec" {
     inline = [

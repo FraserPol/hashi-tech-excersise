@@ -18,7 +18,7 @@
 2. Inside /packer/ run `packer build web_servers.tf` this will provide an AMI for output, save this for later
 3. [Install](https://www.terraform.io/intro/getting-started/install.html) Terraform
 4. Inside /terraform/variables.tf paste your AMI id into the variable field "ami"
-5. `terraform plan` to verify before run
+5. `terraform plan` to verify before run and `terraform get` to get the consul module
 6. `terraform apply` to provision out cluster
 
 
