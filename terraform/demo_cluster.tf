@@ -50,6 +50,8 @@ resource "null_resource" "consul" {
   }
 
 #to do: clean up perms
+#note here that enable_script_checks isnt part of the reloadable config
+#https://www.consul.io/docs/agent/options.html#reloadable-configuration
 
   provisioner "remote-exec" {
     inline = [

@@ -19,7 +19,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-p-webserver-h"
+    "ami_name": "fp-p-webserver-j"
   }],
   "provisioners": [{
     "type": "shell",
@@ -32,5 +32,10 @@
       "sudo mkdir /etc/consul.d/",
       "sudo chmod -R 0777 /etc/consul.d/"
     ]
+  },
+  {
+    "type": "file",
+    "source": "consul_config/config.json",
+    "destination": "/etc/consul.d/config.json"
   }]
 }

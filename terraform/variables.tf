@@ -10,13 +10,13 @@ variable "ami" {
   description = "AWS AMI Id, if you change, make sure it is compatible with instance type, not all AMIs allow all instance types "
 
   default = {
-    us-east-1-ubuntu = "ami-9c0c5fe7"
+    us-east-1-ubuntu = "ami-5feeb324"
   }
 }
 
 variable "key_path" {
   description = "Default key path for connection"
-  default     = "~/.ssh/id_rsa"
+  default     = "~/.ssh/id_rsa_work"
 }
 
 variable "key_name" {
