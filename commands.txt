@@ -1,0 +1,20 @@
+####
+Vagrant Section
+#####
+
+vagrant up
+
+vagrant ssh
+
+ps aux | grep apache2
+
+
+#######
+
+vagrant up
+
+vagrant ssh
+
+ps aux | grep apache2
+
+########
