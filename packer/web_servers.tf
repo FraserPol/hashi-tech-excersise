@@ -19,7 +19,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-p-webserver-j"
+    "ami_name": "fp-p-webserver-l"
   }],
   "provisioners": [{
     "type": "shell",
@@ -30,7 +30,8 @@
       "sudo apt-get install -y unzip",
       "sudo chmod -R 0777 /var/www/html/",
       "sudo mkdir /etc/consul.d/",
-      "sudo chmod -R 0777 /etc/consul.d/"
+      "sudo chmod -R 0777 /etc/consul.d/",
+      "sudo mkdir /opt/vault/"
     ]
   },
   {

@@ -50,8 +50,21 @@ resource "aws_instance" "server" {
     provisioner "file" {
       source = "${path.module}/./website/index.html"
       destination = "/var/www/html/index.html"
+    }
+
+    provisioner "file" {
+      source = "${path.module}/./vault_configs/basic-config.html"
+      destination = "/opt/vault/config.hcl"
 
     }
+
+    provisioner "remote-exec" {
+      scripts = [
+        "${path.module}/./scripts/install_vault.sh",
+      ]
+    }
+
+
 }
 
 resource "aws_security_group" "consul" {

@@ -19,3 +19,9 @@ unzip vault.zip
 chmod +x vault
 
 sudo mv vault /usr/local/bin/vault
+
+nohup vault server -config=/opt/vault/config.hcl > /dev/null 2>&1 &
+
+export VAULT_ADDR=http://127.0.0.1:8200
+
+vault init > temp.txt
