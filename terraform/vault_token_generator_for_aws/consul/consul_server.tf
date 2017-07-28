@@ -17,7 +17,7 @@ resource "aws_instance" "server" {
     }
 
     provisioner "file" {
-        source = "./scripts/${lookup(var.service_conf, var.platform)}"
+        source = "${path.module}/./scripts/${lookup(var.service_conf, var.platform)}"
         destination = "/tmp/${lookup(var.service_conf_dest, var.platform)}"
     }
 
@@ -31,24 +31,24 @@ resource "aws_instance" "server" {
 
     provisioner "remote-exec" {
         scripts = [
-            "./scripts/install.sh",
-            "./scripts/service.sh",
-            "./scripts/ip_tables.sh",
+          "${path.module}/./scripts/install.sh",
+          "${path.module}/./scripts/service.sh",
+          "${path.module}/./scripts/ip_tables.sh",
         ]
     }
 
     provisioner "file" {
-      source = "consul_conf/ping.json"
+      source = "${path.module}/./consul_conf/ping.json"
       destination = "/etc/consul.d/ping.json"
     }
 
     provisioner "file" {
-      source = "consul_conf/web.json"
+      source = "${path.module}/./consul_conf/web.json"
       destination = "/etc/consul.d/web.json"
     }
 
     provisioner "file" {
-      source = "website/index.html"
+      source = "${path.module}/./website/index.html"
       destination = "/var/www/html/index.html"
 
     }

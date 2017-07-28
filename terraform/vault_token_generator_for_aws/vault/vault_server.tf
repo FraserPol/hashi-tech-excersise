@@ -15,10 +15,10 @@ resource "aws_instance" "vault" {
     private_key = "${file("${var.key_path}")}"
   }
 
-  
+
   provisioner "remote-exec" {
     scripts = [
-      "./scripts/install_vault.sh"
+      "${path.module}/./scripts/install_vault.sh",
     ]
   }
 }
