@@ -19,7 +19,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-p-webserver-r"
+    "ami_name": "fp-p-webserver-a"
   }],
   "provisioners": [
     {
@@ -29,8 +29,13 @@
     },
     {
       "type": "file",
-      "source": "vault_config/basic-config.hcl",
-      "destination": "/tmp/basic-config.hcl"
+      "source": "vault_config/vault.hcl",
+      "destination": "/tmp/vault.hcl"
+    },
+    {
+      "type": "file",
+      "source": "vault_config/vault.conf",
+      "destination": "/tmp/vault.conf"
     },
     {
     "type": "shell",
@@ -43,9 +48,16 @@
       "sudo mkdir /etc/consul.d/",
       "sudo chmod -R 755 /etc/consul.d/",
       "sudo mkdir /opt/vault/",
+      "sudo mkdir /etc/vault.d/",
       "sudo chmod -R 755 /opt/vault/",
       "sudo mv /tmp/config.json /etc/consul.d/config.json",
-      "sudo mv /tmp/basic-config.hcl /opt/vault/basic-config.hcl"
+      "sudo mv /tmp/vault.hcl /etc/vault.d/vault.hcl",
+      "sudo mv /tmp/vault.conf /etc/init/vault.conf"
     ]
- }]
+    },
+    {
+    "type": "shell",
+    "script": "scripts/install_vault.sh"
+    }
+  ]
 }
