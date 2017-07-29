@@ -3,13 +3,15 @@ variable "platform" {
   description = "The OS Platform"
 }
 
+variable "sg_name" {
+  default     = "vault_token_demo"
+  description = "The OS Platform"
+}
+
+
 variable "user" {
   default = {
     ubuntu  = "ubuntu"
-    rhel6   = "ec2-user"
-    centos6 = "centos"
-    centos7 = "centos"
-    rhel7   = "ec2-user"
   }
 }
 
@@ -17,27 +19,19 @@ variable "ami" {
   description = "AWS AMI Id, if you change, make sure it is compatible with instance type, not all AMIs allow all instance types "
 
   default = {
-    us-east-1-ubuntu      = "ami-e783df9c"
+    us-east-1-ubuntu      = "ami-fcfea787"
   }
 }
 
 variable "service_conf" {
   default = {
     ubuntu  = "debian_upstart.conf"
-    rhel6   = "rhel_upstart.conf"
-    centos6 = "rhel_upstart.conf"
-    centos7 = "rhel_consul.service"
-    rhel7   = "rhel_consul.service"
   }
 }
 
 variable "service_conf_dest" {
   default = {
     ubuntu  = "upstart.conf"
-    rhel6   = "upstart.conf"
-    centos6 = "upstart.conf"
-    centos7 = "consul.service"
-    rhel7   = "consul.service"
   }
 }
 

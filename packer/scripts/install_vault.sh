@@ -10,12 +10,13 @@ else
   sudo yum install -y unzip wget
 fi
 
+#working in tmp
 cd /tmp
 
 wget https://releases.hashicorp.com/vault/0.7.3/vault_0.7.3_linux_amd64.zip -O vault.zip --quiet
 
 unzip vault.zip
 
-chmod +x vault
+sudo mv vault /usr/local/bin/
 
-sudo mv vault /usr/local/bin/vault
+sudo chmod +x /usr/local/bin/vault

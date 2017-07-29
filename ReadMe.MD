@@ -27,5 +27,10 @@ For basic verification and check the IP of the machines is echo'ed into the inde
 
 Once provisioned run `consul monitor` to see clustering status and HTTP status checks.
 
-
 #################################################################################
+
+
+To do:
+
+1) Need to think about baking consul/vault into the build, what advantages/disadvantages does this present? (upgrades, maintenance, cluster joining, provision time over maintenance time, reusability)
+2) Get vault working!
