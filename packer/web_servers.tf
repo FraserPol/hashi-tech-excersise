@@ -19,7 +19,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-p-webserver-a"
+    "ami_name": "fp-p-webserver-beta"
   }],
   "provisioners": [
     {
@@ -44,11 +44,11 @@
       "sudo apt-get update",
       "sudo apt-get install -y apache2",
       "sudo apt-get install -y unzip",
-      "sudo chmod -R 0664 /var/www/html/",
       "sudo mkdir /etc/consul.d/",
-      "sudo chmod -R 755 /etc/consul.d/",
       "sudo mkdir /opt/vault/",
       "sudo mkdir /etc/vault.d/",
+      "sudo chmod -R 0664 /var/www/html/",
+      "sudo chmod -R 755 /etc/consul.d/",
       "sudo chmod -R 755 /opt/vault/",
       "sudo mv /tmp/config.json /etc/consul.d/config.json",
       "sudo mv /tmp/vault.hcl /etc/vault.d/vault.hcl",
@@ -56,8 +56,16 @@
     ]
     },
     {
-    "type": "shell",
-    "script": "scripts/install_vault.sh"
+      "type": "shell",
+      "script": "scripts/install_vault.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/install_consul.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/ip_tables.sh"
     }
   ]
 }

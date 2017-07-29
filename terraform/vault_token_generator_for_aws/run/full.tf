@@ -20,12 +20,6 @@ resource "aws_instance" "server" {
         ConsulRole = "Server"
     }
 
-    provisioner "file" {
-        source = "${path.module}/./scripts/${lookup(var.service_conf, var.platform)}"
-        destination = "/tmp/${lookup(var.service_conf_dest, var.platform)}"
-    }
-
-
     provisioner "remote-exec" {
         inline = [
             "echo ${var.servers} > /tmp/consul-server-count",
@@ -33,23 +27,25 @@ resource "aws_instance" "server" {
         ]
     }
 
-    provisioner "remote-exec" {
-        scripts = [
-          "${path.module}/./scripts/install.sh",
-          "${path.module}/./scripts/service.sh",
-          "${path.module}/./scripts/ip_tables.sh",
-        ]
+    provisioner "file" {
+      source = "./scripts/debian_upstart.conf"
+      destination = "/tmp/upstart.conf"
     }
 
-
+    provisioner "remote-exec" {
+    scripts = [
+        "./scripts/install.sh",
+        "./scripts/service.sh",
+      ]
+    }
 
     provisioner "file" {
-      source = "${path.module}/./website/index.html"
+      source = "./website/index.html"
       destination = "/tmp/index.html"
     }
 
     provisioner "file" {
-      source = "${path.module}/./env_configs/environment"
+      source = "./env_configs/environment"
       destination = "/tmp/environment"
     }
 
