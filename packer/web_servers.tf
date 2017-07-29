@@ -19,24 +19,33 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-p-webserver-l"
+    "ami_name": "fp-p-webserver-r"
   }],
-  "provisioners": [{
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "consul_config/config.json",
+      "destination": "/tmp/config.json"
+    },
+    {
+      "type": "file",
+      "source": "vault_config/basic-config.hcl",
+      "destination": "/tmp/basic-config.hcl"
+    },
+    {
     "type": "shell",
     "inline": [
       "sleep 30",
       "sudo apt-get update",
       "sudo apt-get install -y apache2",
       "sudo apt-get install -y unzip",
-      "sudo chmod -R 0777 /var/www/html/",
+      "sudo chmod -R 0664 /var/www/html/",
       "sudo mkdir /etc/consul.d/",
-      "sudo chmod -R 0777 /etc/consul.d/",
-      "sudo mkdir /opt/vault/"
+      "sudo chmod -R 755 /etc/consul.d/",
+      "sudo mkdir /opt/vault/",
+      "sudo chmod -R 755 /opt/vault/",
+      "sudo mv /tmp/config.json /etc/consul.d/config.json",
+      "sudo mv /tmp/basic-config.hcl /opt/vault/basic-config.hcl"
     ]
-  },
-  {
-    "type": "file",
-    "source": "consul_config/config.json",
-    "destination": "/etc/consul.d/config.json"
-  }]
+ }]
 }

@@ -37,30 +37,36 @@ resource "aws_instance" "server" {
         ]
     }
 
-    provisioner "file" {
-      source = "${path.module}/./consul_conf/ping.json"
-      destination = "/etc/consul.d/ping.json"
-    }
 
-    provisioner "file" {
-      source = "${path.module}/./consul_conf/web.json"
-      destination = "/etc/consul.d/web.json"
-    }
 
     provisioner "file" {
       source = "${path.module}/./website/index.html"
-      destination = "/var/www/html/index.html"
+      destination = "/tmp/index.html"
     }
 
     provisioner "file" {
-      source = "${path.module}/./vault_configs/basic-config.html"
-      destination = "/opt/vault/config.hcl"
+      source = "${path.module}/./vault_configs/basic-config.hcl"
+      destination = "/tmp/config.hcl"
+    }
 
+    provisioner "file" {
+      source = "${path.module}/./env_configs/environment"
+      destination = "/tmp/environment"
+    }
+
+    provisioner "remote-exec" {
+      inline = [
+        "sudo mv /tmp/environment /etc/environment",
+        "sudo mv /tmp/ping.json /etc/consul.d/ping.json",
+        "sudo mv /tmp/web.json /etc/consul.d/web.json",
+        "sudo mv /tmp/index.html /var/www/html/index.html",
+        "sudo mv /tmp/config.hcl /opt/vault/config.hcl"
+      ]
     }
 
     provisioner "remote-exec" {
       scripts = [
-        "${path.module}/./scripts/install_vault.sh",
+        "${path.module}/./scripts/install_vault.sh"
       ]
     }
 
