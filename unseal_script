@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+set -x
+
+vault init > /tmp/keys
+
+COUNTER=1
+egrep -ir "unseal key" /tmp/keys  | awk '{print $4}' | while read key; do
+  consul kv put vault/unseal-keys/key-$COUNTER $key
+  COUNTER=$((COUNTER + 1))
+done
+
+export ROOT_TOKEN="$(egrep -ir "initial root token" /tmp/keys | awk '{print $4}')"
+
+consul kv put vault/root-token/key $ROOT_TOKEN
+
+COUNTER=1
+while [ $COUNTER != "4" ]; do
+  vault unseal $(consul kv get vault/unseal-keys/key-$COUNTER)
+  COUNTER=$((COUNTER + 1))
+done
+
+vault auth $ROOT_TOKEN
+
+vault mount ssh
