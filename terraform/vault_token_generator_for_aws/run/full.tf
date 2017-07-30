@@ -43,12 +43,36 @@ resource "aws_instance" "server" {
       destination = "/tmp/ping.json"
     }
 
+    provisioner "file" {
+      source = "./scripts/unseal.sh"
+      destination = "/tmp/unseal.sh"
+    }
+
     provisioner "remote-exec" {
       inline = [
+        "consul join $(cat /tmp/consul-server-addr | tr -d '\n')",
         "sudo mv /tmp/ping.json /etc/consul.d/ping.json",
         "sudo mv /tmp/web.json /etc/consul.d/web.json",
-        "sudo mv /tmp/index.html /var/www/html/index.html",
-        "sudo service consul reload"
+        "sudo service consul reload",
+        "chmod +x /tmp/unseal.sh",
+        "consul join $(cat /tmp/consul-server-addr | tr -d '\n')"
       ]
     }
+}
+
+resource "null_resource" "configure-vault" {
+  depends_on = ["aws_instance.server"]
+
+  connection {
+      user = "${lookup(var.user, var.platform)}"
+      private_key = "${file("${var.key_path}")}"
+      host = "${element(aws_instance.server.*.public_ip, 0)}"
+      agent = false
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "/tmp/unseal.sh"
+    ]
+  }
 }
