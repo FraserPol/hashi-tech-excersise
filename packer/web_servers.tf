@@ -19,7 +19,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "fp-p-webserver-beta"
+    "ami_name": "webserver-{{isotime \"Mon 1504\"}}"
   }],
   "provisioners": [
     {
@@ -38,6 +38,21 @@
       "destination": "/tmp/vault.conf"
     },
     {
+      "type": "file",
+      "source": "consul_config/consul-server-count",
+      "destination": "/tmp/consul-server-count"
+    },
+    {
+      "type": "file",
+      "source": "scripts/debian_upstart.conf",
+      "destination": "/tmp/upstart.conf"
+    },
+    {
+      "type": "file",
+      "source": "env_configs/environment",
+      "destination": "/tmp/environment"
+    },
+    {
     "type": "shell",
     "inline": [
       "sleep 30",
@@ -50,14 +65,16 @@
       "sudo chmod -R 0664 /var/www/html/",
       "sudo chmod -R 755 /etc/consul.d/",
       "sudo chmod -R 755 /opt/vault/",
+      "sudo hostname | sed -e 's/$/\\.ec2\\.internal/' > /tmp/consul-server-addr",
       "sudo mv /tmp/config.json /etc/consul.d/config.json",
       "sudo mv /tmp/vault.hcl /etc/vault.d/vault.hcl",
-      "sudo mv /tmp/vault.conf /etc/init/vault.conf"
+      "sudo mv /tmp/vault.conf /etc/init/vault.conf",
+      "sudo mv /tmp/environment /etc/environment"
     ]
     },
     {
       "type": "shell",
-      "script": "scripts/install_vault.sh"
+      "script": "scripts/ip_tables.sh"
     },
     {
       "type": "shell",
@@ -65,7 +82,7 @@
     },
     {
       "type": "shell",
-      "script": "scripts/ip_tables.sh"
+      "script": "scripts/install_vault.sh"
     }
   ]
 }
