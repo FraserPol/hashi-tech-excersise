@@ -76,3 +76,25 @@ resource "null_resource" "configure-vault" {
     ]
   }
 }
+
+resource "null_resource" "unseal-all" {
+  depends_on = ["null_resource.configure-vault"]
+  count = "${var.servers}"
+
+  connection {
+      user = "${lookup(var.user, var.platform)}"
+      private_key = "${file("${var.key_path}")}"
+      host = "${element(aws_instance.server.*.public_ip, count.index)}"
+      agent = false
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "/tmp/unseal.sh"
+    ]
+  }
+}
+
+output "vault_token_demo" {
+  value = "${aws_instance.server.*.public_ip}"
+}

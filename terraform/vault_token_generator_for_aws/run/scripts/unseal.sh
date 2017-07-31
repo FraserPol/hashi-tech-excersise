@@ -19,18 +19,26 @@ if [ `curl -sf "http://127.0.0.1:8200/v1/sys/init" | egrep -i "false"` ]; then
 
     consul kv put vault/root-token/key $ROOT_TOKEN
 
-    #POINTER=1
-    #while [ $POINTER != "4" ]; do
-    #  vault unseal $(consul kv get vault/unseal-keys/key-$POINTER)
-    #  POINTER=$((POINTER + 1))
-    #done
-
     vault auth $ROOT_TOKEN
 
     vault mount ssh
 
+    vault audit-enable file file_path=/var/log/vault_audit
+
 else
 
+  if [ `curl -sf "http://127.0.0.1:8200/v1/sys/init" | egrep -i "true"` ]; then
+
+    POINTER=1
+    while [ $POINTER != "4" ]; do
+      vault unseal $(consul kv get vault/unseal-keys/key-$POINTER)
+      POINTER=$((POINTER + 1))
+    done
+
+  else
+
     echo "Vault already initialized or error"
+
+  fi
 
 fi
