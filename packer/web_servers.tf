@@ -65,7 +65,6 @@
       "sudo chmod -R 0664 /var/www/html/",
       "sudo chmod -R 755 /etc/consul.d/",
       "sudo chmod -R 755 /opt/vault/",
-      "sudo hostname | sed -e 's/$/\\.ec2\\.internal/' > /tmp/consul-server-addr",
       "sudo mv /tmp/config.json /etc/consul.d/config.json",
       "sudo mv /tmp/vault.hcl /etc/vault.d/vault.hcl",
       "sudo mv /tmp/vault.conf /etc/init/vault.conf",

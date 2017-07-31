@@ -21,13 +21,6 @@ resource "aws_instance" "server" {
         ConsulRole = "Server"
     }
 
-    provisioner "remote-exec" {
-        inline = [
-            "echo ${var.servers} > /tmp/consul-server-count",
-            "echo ${aws_instance.server.0.private_dns} > /tmp/consul-server-addr",
-        ]
-    }
-
     provisioner "file" {
       source = "./website/index.html"
       destination = "/tmp/index.html"
@@ -50,35 +43,21 @@ resource "aws_instance" "server" {
 
     provisioner "remote-exec" {
       inline = [
+        "echo ${var.servers} > /tmp/consul-server-count",
+        "echo ${aws_instance.server.0.private_dns} > /tmp/consul-server-addr",
         "consul join $(cat /tmp/consul-server-addr | tr -d '\n')",
+        "sleep 10",
+        "consul kv put consul/primary/node $(cat /tmp/consul-server-addr)",
         "sudo mv /tmp/ping.json /etc/consul.d/ping.json",
         "sudo mv /tmp/web.json /etc/consul.d/web.json",
         "sudo service consul reload",
         "chmod +x /tmp/unseal.sh",
-        "consul join $(cat /tmp/consul-server-addr | tr -d '\n')"
       ]
     }
 }
 
 resource "null_resource" "configure-vault" {
   depends_on = ["aws_instance.server"]
-
-  connection {
-      user = "${lookup(var.user, var.platform)}"
-      private_key = "${file("${var.key_path}")}"
-      host = "${element(aws_instance.server.*.public_ip, 0)}"
-      agent = false
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "/tmp/unseal.sh"
-    ]
-  }
-}
-
-resource "null_resource" "unseal-all" {
-  depends_on = ["null_resource.configure-vault"]
   count = "${var.servers}"
 
   connection {
