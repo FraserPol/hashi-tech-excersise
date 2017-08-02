@@ -39,7 +39,7 @@
     },
     {
       "type": "file",
-      "source": "haproxy/haproxy.conf",
+      "source": "haproxy/haproxy.cfg",
       "destination": "/tmp/haproxy.conf.ctmpl"
     },
     {

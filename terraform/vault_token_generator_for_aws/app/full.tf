@@ -52,6 +52,7 @@ resource "aws_instance" "app" {
         "sudo mv /tmp/web.json /etc/consul.d/web.json",
         "sudo service consul reload",
         "chmod +x /tmp/unseal.sh",
+        "sudo mv /tmp/index.html /var/www/html.index.html"
       ]
     }
 }
@@ -92,14 +93,18 @@ resource "aws_instance" "proxy" {
         agent = false
     }
 
-    provisioner "remote-exec" {
-      inline = [
-        "echo ${aws_instance.app.0.private_dns} > /tmp/consul-server-addr",
-        "consul join $(cat /tmp/consul-server-addr | tr -d '\n')",
-      ]
-
+    provisioner "file" {
+      source = "./haproxy/haproxy.cfg.ctmpl"
+      destination = "/tmp/haproxy.cfg.ctmpl"
     }
 
+    provisioner "remote-exec" {
+      inline = [
+        "sleep 30",
+        "echo ${aws_instance.app.0.private_dns} > /tmp/consul-server-addr",
+        "consul join $(cat /tmp/consul-server-addr | tr -d '\n')"
+      ]
+    }
 }
 
 output "app_servers" {

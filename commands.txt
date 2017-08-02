@@ -17,4 +17,6 @@ vagrant ssh
 
 ps aux | grep apache2
 
-########
+######
+
+nohup consul-template -template="/tmp/haproxy.cfg.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy reload" >/dev/null 2>&1 &
