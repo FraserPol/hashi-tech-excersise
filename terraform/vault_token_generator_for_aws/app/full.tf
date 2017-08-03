@@ -2,6 +2,13 @@ module "network" {
   source = "../modules/network"
 }
 
+provider "aws" {
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
+  region     = "us-east-1"
+}
+
+
 resource "aws_instance" "app" {
     ami = "${lookup(var.app-ami, "${var.region}-${var.platform}")}"
     instance_type = "${var.instance_type}"
@@ -41,6 +48,11 @@ resource "aws_instance" "app" {
       destination = "/tmp/unseal.sh"
     }
 
+    provisioner "file" {
+      source = "./aws/policy.json",
+      destination = "/tmp/policy.json"
+    }
+
     provisioner "remote-exec" {
       inline = [
         "echo ${var.servers} > /tmp/consul-server-count",
@@ -52,7 +64,7 @@ resource "aws_instance" "app" {
         "sudo mv /tmp/web.json /etc/consul.d/web.json",
         "sudo service consul reload",
         "chmod +x /tmp/unseal.sh",
-        "sudo mv /tmp/index.html /var/www/html.index.html"
+        "sudo mv /tmp/index.html /var/www/index.html"
       ]
     }
 }
@@ -70,7 +82,7 @@ resource "null_resource" "configure-vault" {
 
   provisioner "remote-exec" {
     inline = [
-      "/tmp/unseal.sh"
+      "/tmp/unseal.sh ${var.aws_access_key} ${var.aws_secret_key}"
     ]
   }
 }

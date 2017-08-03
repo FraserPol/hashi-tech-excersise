@@ -28,9 +28,35 @@ Terraform Section
 
 cd terraform/simple_web_demo
 
+terraform plan
+
+terraform apply
+
+change 1 to 3
+
+terraform plan
+
+terraform apply
+
+terraform destroy
+
+######
+Vault Section
+######
+
+vault read aws/creds/deploy
+
 
 
 
 ######
+Consul Section
+######
 
-nohup consul-template -template="/tmp/haproxy.cfg.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy reload" >/dev/null 2>&1 &
+consul members
+
+consul monitor
+
+cd /etc/consul.d/
+
+consul-template -template="/tmp/haproxy.cfg.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy reload"

@@ -36,3 +36,7 @@ resource "aws_instance" "web" {
       script = "./scripts/ip_tables.sh"
     }
 }
+
+output "web_servers" {
+  value = "${aws_instance.web.*.public_ip}"
+}

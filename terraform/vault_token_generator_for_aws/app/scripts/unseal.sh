@@ -2,6 +2,9 @@
 set -e
 set -x
 
+aws_access_key=$1
+aws_secret_key=$2
+
 #check if we are the primary bootstrapping node for the cluster
 if [[ `consul kv get consul/primary/node | egrep -i $(hostname)` ]]; then
   #check if the vault is already initialized
@@ -24,7 +27,10 @@ if [[ `consul kv get consul/primary/node | egrep -i $(hostname)` ]]; then
     vault audit-enable file file_path=/var/log/vault_audit
 
     vault mount aws
-    vault mount database
+
+    vault write aws/config/root access_key=$1 secret_key=$2 lease=504h
+
+    vault write aws/roles/deploy policy=@/tmp/policy.json
 
     shred -u -z /tmp/keys
   fi

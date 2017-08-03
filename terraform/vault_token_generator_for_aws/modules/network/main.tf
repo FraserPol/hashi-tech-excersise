@@ -1,7 +1,8 @@
+provider "aws" {}
+
 resource "aws_security_group" "vault_token_demo" {
     name = "${var.sg_name}"
     description = "Consul internal traffic + maintenance."
-
 
     // These are for internal traffic
     ingress {
