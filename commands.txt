@@ -2,19 +2,35 @@
 Vagrant Section
 #####
 
+cd vagrant/aws
+
+cat Vagrantfile
+
 vagrant up
 
 vagrant ssh
 
-ps aux | grep apache2
+vagrant destroy
 
+###################
+
+cd ../aws/
+
+vagrant up
+
+vagrant ssh
+
+vagrant destroy
 
 #######
+Terraform Section
+#######
 
-vagrant up
+cd terraform/simple_web_demo
 
-vagrant ssh
 
-ps aux | grep apache2
 
-########
+
+######
+
+nohup consul-template -template="/tmp/haproxy.cfg.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy reload" >/dev/null 2>&1 &

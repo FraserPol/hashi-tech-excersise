@@ -20,8 +20,13 @@ if [[ `consul kv get consul/primary/node | egrep -i $(hostname)` ]]; then
     export ROOT_TOKEN="$(egrep -ir "initial root token" /tmp/keys | awk '{print $4}')"
     consul kv put vault/root-token/key $ROOT_TOKEN
     vault auth $ROOT_TOKEN
-    vault mount ssh
+
     vault audit-enable file file_path=/var/log/vault_audit
+
+    vault mount aws
+    vault mount database
+
+    shred -u -z /tmp/keys
   fi
 else
     #if we arent primary, take a second to let primary bootstrap

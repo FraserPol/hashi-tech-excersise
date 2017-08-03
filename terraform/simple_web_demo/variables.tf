@@ -4,8 +4,8 @@ variable "platform" {
 }
 
 variable "sg_name" {
-  default     = "vault_token_demo"
-  description = "The OS Platform"
+  default     = "simple_web_demo"
+  description = "The SG"
 }
 
 
@@ -15,31 +15,11 @@ variable "user" {
   }
 }
 
-variable "app-ami" {
+variable "web-ami" {
   description = "AWS AMI Id, if you change, make sure it is compatible with instance type, not all AMIs allow all instance types "
 
   default = {
-    us-east-1-ubuntu        = "ami-8e9db9f5"
-  }
-}
-
-variable "proxy-ami" {
-  description = "AWS AMI Id, if you change, make sure it is compatible with instance type, not all AMIs allow all instance types "
-
-  default = {
-    us-east-1-ubuntu       = "ami-18e4c263"
-  }
-}
-
-variable "service_conf" {
-  default = {
-    ubuntu  = "debian_upstart.conf"
-  }
-}
-
-variable "service_conf_dest" {
-  default = {
-    ubuntu  = "upstart.conf"
+    us-east-1-ubuntu        = "ami-0b715070"
   }
 }
 
@@ -59,7 +39,7 @@ variable "region" {
 }
 
 variable "servers" {
-  default     = "3"
+  default     = "1"
   description = "The number of Consul servers to launch."
 }
 
@@ -69,6 +49,6 @@ variable "instance_type" {
 }
 
 variable "tagName" {
-  default     = "app_servers"
+  default     = "web_servers"
   description = "Name tag for the servers"
 }
