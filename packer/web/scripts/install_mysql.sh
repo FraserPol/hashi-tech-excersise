@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
-
-export DEBIAN_FRONTEND=noninteractive
+set -x
 
 sudo debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password password iamrootfearme'
 sudo debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password_again password iamrootfearme'
