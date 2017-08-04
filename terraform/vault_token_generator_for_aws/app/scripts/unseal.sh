@@ -32,6 +32,8 @@ if [[ `consul kv get consul/primary/node | egrep -i $(hostname)` ]]; then
 
     vault write aws/roles/deploy policy=@/tmp/policy.json
 
+    # vault write aws/roles/content policy=@/tmp/s3policy.json
+
     shred -u -z /tmp/keys
   fi
 else

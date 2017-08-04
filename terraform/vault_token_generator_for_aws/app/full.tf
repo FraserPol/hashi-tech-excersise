@@ -53,6 +53,11 @@ resource "aws_instance" "app" {
       destination = "/tmp/policy.json"
     }
 
+    provisioner "file" {
+      source = "./aws/s3policy.json"
+      destination = "/tmp/s3policy.json"
+    }
+
     provisioner "remote-exec" {
       inline = [
         "echo ${var.servers} > /tmp/consul-server-count",

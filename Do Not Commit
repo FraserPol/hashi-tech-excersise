@@ -1,0 +1,1 @@
+vault read aws/creds/deploy

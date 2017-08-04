@@ -46,22 +46,48 @@ Consul Section
 
 consul members
 
+cd /etc/consul.d/
+
 consul monitor
 
-cd /etc/consul.d/
+dig @127.0.0.1 -p 8600 web.service.consul    #returns an A Record
+
+dig @127.0.0.1 -p 8600 web.service.consul SRV   #returns an SRV record (service record)
 
 consul kv get consul/primary/node
 
-#####
+consul leave
+
+sudo service consul start
+
+consul join  # IP number here
+
+####
 Consul Template
 #####
 
 consul-template -template="/tmp/haproxy.cfg.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy reload"
 
-
+watch cat /etc/haproxy/haproxy.cfg
 
 ######
 Vault Section
 ######
 
+consul kv get vault/root-token/key
+
+vault auth
+
+vault token-create
+
+sudo tail -f /var/log/vault_audit
+
+sudo apt-get install jq
+
+vault auth $Token from previous command
+
 vault read aws/creds/deploy
+
+curl -X GET -H "X-Vault-Token:$TOKEN" http://127.0.0.1:8200/v1/aws/creds/deploy | jq .
+
+vault token-revoke <put in key>
