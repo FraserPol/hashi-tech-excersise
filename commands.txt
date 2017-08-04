@@ -41,15 +41,6 @@ terraform apply
 terraform destroy
 
 ######
-Vault Section
-######
-
-vault read aws/creds/deploy
-
-
-
-
-######
 Consul Section
 ######
 
@@ -59,4 +50,18 @@ consul monitor
 
 cd /etc/consul.d/
 
+consul kv get consul/primary/node
+
+#####
+Consul Template
+#####
+
 consul-template -template="/tmp/haproxy.cfg.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy reload"
+
+
+
+######
+Vault Section
+######
+
+vault read aws/creds/deploy
